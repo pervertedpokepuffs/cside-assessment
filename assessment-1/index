@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title>Assessment 1</title>
+  <style>
+    .flex-row {
+      display: flex;
+    }
+
+    .flex-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gap-3 {
+      gap: 0.75rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header></header>
+  <main>
+    <div class="flex-col gap-3">
+      <div class="flex-row gap-3">
+        <div class="flex-col gap-3">
+          <label for="from-input">From date:</label>
+          <label for="to-input">To date:</label>
+          <label for="day-diff-input">Day difference:</input>
+        </div>
+        <div class="flex-col gap-3">
+          <input id="from-input" type="date" />
+          <input id="to-input" type="date" />
+          <input min="0" value="0" id="day-diff-input" type="number" />
+        </div>
+      </div>
+      <div>
+        <input id="include-end-input" type="checkbox" />
+        <label for="include-end-input">Include end date in calculation</label>
+      </div>
+    </div>
+  </main>
+  <footer></footer>
+
+  <script>
+    const getIncludeEndDateEl = () => document.getElementById('include-end-input');
+    const includeEndDate = () => getIncludeEndDateEl().checked ? 1 : 0;
+    const getFromDateEl = () => document.getElementById('from-input');
+    const getToDateEl = () => document.getElementById('to-input');
+    const getDayDiffEl = () => document.getElementById('day-diff-input');
+
+    const getNewToDate = () => {
+      const from_date = getFromDateEl().valueAsDate;
+      let day_diff = Number(getDayDiffEl().value) - includeEndDate();
+      if (day_diff < 0) day_diff = 0;
+      const new_date = new Date(from_date);
+      new_date.setDate(new_date.getDate() + day_diff);
+      return new_date;
+    }
+
+    const handleToDateChange = (ev) => {
+      const to_date = getToDateEl().valueAsDate;
+      let day_diff = Number(getDayDiffEl().value) - includeEndDate();
+      if (day_diff < 0) day_diff = 0;
+      const new_date = new Date(to_date);
+      new_date.setDate(new_date.getDate() - day_diff);
+      getFromDateEl().valueAsDate = new_date;
+    }
+    getToDateEl().addEventListener('change', handleToDateChange);
+
+    const handleFromDateChange = (ev) => {
+      getToDateEl().valueAsDate = getNewToDate();
+    }
+    getFromDateEl().addEventListener('change', handleFromDateChange);
+
+    const handleDayDiffChange = (ev) => {
+      getToDateEl().valueAsDate = getNewToDate();
+    }
+    getDayDiffEl().addEventListener('change', handleDayDiffChange);
+
+    const handleIncludeEndDateChange = (ev) => {
+      getToDateEl().valueAsDate = getNewToDate();
+    }
+    getIncludeEndDateEl().addEventListener('change', handleIncludeEndDateChange);
+  </script>
+</body>
+
+</html>
