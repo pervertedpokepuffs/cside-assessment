@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogContent, DialogTitle, MenuItem, Select, TextField, Typography } from '@mui/material'
+import { Button, Dialog, DialogContent, DialogTitle, MenuItem, Select, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
 import { InventoryLotApi } from '../../features/api'
